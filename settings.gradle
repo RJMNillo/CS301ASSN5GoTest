@@ -1,0 +1,2 @@
+rootProject.name='CS301ASSN5Go'
+include ':app'
