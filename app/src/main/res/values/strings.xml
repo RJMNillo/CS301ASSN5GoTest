@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">CS301ASSN5Go</string>
+    <string name="app_name">Tic-Tac-Toe</string>
+    <string name="hello_world">Hello world!</string>
 </resources>
