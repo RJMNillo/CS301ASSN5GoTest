@@ -10,10 +10,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import edu.up.cs301.game.GameFramework.GameMainActivity;
-import edu.up.cs301.game.GameFramework.GamePlayer;
-import edu.up.cs301.game.GameFramework.ProxyPlayer;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.GameMainActivity;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.GamePlayer;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.ProxyPlayer;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.Logger;
 
 /**
  * GameConfig class

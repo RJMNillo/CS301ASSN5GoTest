@@ -1,6 +1,6 @@
 package com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage;
 
-import edu.up.cs301.game.GameFramework.Game;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.Game;
 
 /**
  * A message from the game to a player that tells the player:

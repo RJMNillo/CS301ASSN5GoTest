@@ -1,6 +1,6 @@
 package com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage;
 
-import edu.up.cs301.game.GameFramework.GamePlayer;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.GamePlayer;
 
 /**
  * An action by which the player acknowledges that the game is over.

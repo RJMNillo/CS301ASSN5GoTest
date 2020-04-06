@@ -4,20 +4,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import edu.up.cs301.game.GameFramework.actionMessage.EndTurnAction;
-import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
-import edu.up.cs301.game.GameFramework.actionMessage.GameOverAckAction;
-import edu.up.cs301.game.GameFramework.actionMessage.MyNameIsAction;
-import edu.up.cs301.game.GameFramework.actionMessage.ReadyAction;
-import edu.up.cs301.game.GameFramework.actionMessage.TimerAction;
-import edu.up.cs301.game.GameFramework.infoMessage.BindGameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameOverInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.NotYourTurnInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.StartGameInfo;
-import edu.up.cs301.game.GameFramework.utilities.GameTimer;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
-import edu.up.cs301.game.GameFramework.utilities.Tickable;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage.EndTurnAction;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage.GameAction;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage.GameOverAckAction;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage.MyNameIsAction;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage.ReadyAction;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage.TimerAction;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.BindGameInfo;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.GameOverInfo;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.IllegalMoveInfo;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.NotYourTurnInfo;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.StartGameInfo;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.GameTimer;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.Logger;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.Tickable;
 
 /**
  * A class that knows how to play the game. The data in this class represent the

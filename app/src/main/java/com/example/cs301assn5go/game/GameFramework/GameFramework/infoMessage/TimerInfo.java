@@ -1,6 +1,6 @@
 package com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage;
 
-import edu.up.cs301.game.GameFramework.utilities.GameTimer;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.GameTimer;
 
 /**
  * The a message from to a player (typically sent by a timer) that the timer's
