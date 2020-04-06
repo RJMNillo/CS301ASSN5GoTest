@@ -8,14 +8,21 @@ import com.example.cs301assn5go.R;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.Game;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.GameMainActivity;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.GamePlayer;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.LocalGame;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.gameConfiguration.GameConfig;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.gameConfiguration.GamePlayerType;
 
 import java.util.ArrayList;
 
-public class MainActivity extends GameMainActivity {
+/**
+ * this is the primary activity for Go game
+ *
+ * @author Braeden Lane
+ * @version April 2020
+ */
+public class GoActivity extends GameMainActivity {
     //Tag for logging
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "GoActivity";
     public static final int PORT_NUMBER = 5213;
     /**
      * a Go game is for two players. The default is human vs. computer
@@ -32,13 +39,13 @@ public class MainActivity extends GameMainActivity {
             }
         });
 
-        playerTypes.add(new GamePlayerType() {
+        playerTypes.add(new GamePlayerType("Computer Player (Dumb)") {
             public GamePlayer createPlayer(String name) {
                 return new GoDumbAI(name);
             }
         });
 
-        playerTypes.add(new GamePlayerType() {
+        playerTypes.add(new GamePlayerType("Computer Player (Smart)") {
             public GamePlayer createPlayer(String name) {
                 return new GoSmartAI(name);
             }
@@ -49,14 +56,21 @@ public class MainActivity extends GameMainActivity {
 
         // Add the default players
         defaultConfig.addPlayer("Human", 0);
-        defaultConfig.addPlayer("Computer", 3);
+        defaultConfig.addPlayer("Computer", 1);
 
         // done!
         return defaultConfig;
     }
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//    }
+
+    /**
+     * createLocalGame
+     *
+     * Creates a new game that runs on the server tablet,
+     *
+     * @return a new, game-specific instance of a sub-class of the LocalGame
+     *         class.
+     */
+    @Override
+    public LocalGame createLocalGame() { return new GoLocalGame(); }
+
 }
