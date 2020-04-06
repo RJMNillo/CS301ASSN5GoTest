@@ -46,5 +46,52 @@ public class GoState extends GameState
      * Getter Methods
      * Get a certain variable from GoState.
      */
-    
+    public double getPlayer0score()
+    {
+        return player0score;
+    }
+
+    public double getPlayer1score()
+    {
+        return player1score;
+    }
+
+    public int getTurn()
+    {
+        return playerTurn;
+    }
+
+    public int getPlayer0captures()
+    {
+        return player0captures;
+    }
+
+    public int getPlayer1captures()
+    {
+        return player1captures;
+    }
+
+    /**
+     * Setter Methods
+     */
+    public void setPlayer0score(double scoreinc)
+    {
+        player0score = scoreinc;
+    }
+    public void setPlayer1score(double scoreinc)
+    {
+        player1score = scoreinc;
+    }
+    public void setTurn(int nextTurn)
+    {
+        playerTurn = nextTurn;
+    }
+    public void setPlayer0captures(int addcapture)
+    {
+        player0captures = addcapture;
+    }
+    public void setPlayer1captures(int addcapture)
+    {
+        player1captures = addcapture;
+    }
 }
