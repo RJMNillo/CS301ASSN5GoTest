@@ -94,4 +94,10 @@ public class GoState extends GameState
     {
         player1captures = addcapture;
     }
+
+    //Todo
+    public int getPiece(int row, int col) {
+        return 0;
+    }
+    public void setBoard(int r, int c, int playerID){}
 }

@@ -25,12 +25,12 @@ public class GoDumbAI extends GameComputerPlayer {
         // Chooses a random move
         GoPassAction move = null;
         if (pass >= 1) {
-            move = new GoPassAction(GamePlayer);
+            move = new GoPassAction(this);
         } else {
             int[] choice = random();
             int x = choice[0];
             int y = choice[1];
-            move = new GoMoveAction(GamePlayer, x, y);
+            move = new GoMoveAction(this, x, y);
         }
 
         // Makes move

@@ -35,7 +35,7 @@ public class GoActivity extends GameMainActivity {
 
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
-                return new GoHumanPlayer(name, R.layout.activity_main);
+                return new GoHumanPlayer(name);
             }
         });
 
@@ -44,6 +44,7 @@ public class GoActivity extends GameMainActivity {
                 return new GoDumbAI(name);
             }
         });
+
 
         playerTypes.add(new GamePlayerType("Computer Player (Smart)") {
             public GamePlayer createPlayer(String name) {

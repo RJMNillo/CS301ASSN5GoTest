@@ -8,6 +8,15 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.GameMainActivit
 import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.GameInfo;
 
 public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
+    /**
+     * constructor
+     *
+     * @param name the name of the player
+     */
+    public GoHumanPlayer(String name) {
+        super(name);
+    }
+
     @Override
     public void onClick(View v) {
 
