@@ -8,7 +8,7 @@ import java.util.Random;
 public class GoDumbAI extends GameComputerPlayer {
     // Instance Variables
     float pass; // Chance to pass
-    GameInfo board; // Local understanding of board
+    int[][] board; // Local understanding of board
 
     // Default Constructor
     public GoDumbAI(String name) {
@@ -18,30 +18,25 @@ public class GoDumbAI extends GameComputerPlayer {
     @Override
     protected void receiveInfo(GameInfo info) {
         // Accepts info
-        board = info;
+        board = ((GoState)info).getBoard();
         pass += 0.02;
 
-
         // Chooses a random move
-        GoPassAction move = null;
         if (pass >= 1) {
-            move = new GoPassAction(this);
+            game.sendAction(new GoPassAction(this));
         } else {
-            int[] choice = random();
+            int[] choice = random(board);
             int x = choice[0];
             int y = choice[1];
-            move = new GoMoveAction(this, x, y);
+            game.sendAction(new GoMoveAction(this, x, y));
         }
-
-        // Makes move
-        game.sendAction(move);
     }
 
     /** random: chooses a random position on the board
      *
      * @param board the current game
      */
-    private int[] random(float[][] board) {
+    private int[] random(int[][] board) {
         int size = board.length;
         Random rand = new Random();
         int num = rand.nextInt(size*size);
@@ -57,5 +52,6 @@ public class GoDumbAI extends GameComputerPlayer {
                 }
             }
         }
+        return null;
     }
 }
