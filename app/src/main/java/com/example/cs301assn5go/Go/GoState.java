@@ -16,7 +16,6 @@ public class GoState extends GameState
     private int player0captures;
     private int player1captures;
     private int[][] board;
-    private int[][] movelist;
 
     /**
      * Constructor: Creates an instance of the GameState.
@@ -43,7 +42,6 @@ public class GoState extends GameState
         player0captures = CurrentState.player0captures;
         player1captures = CurrentState.player1captures;
         board = CurrentState.board;
-        movelist = CurrentState.movelist;
     }
 
     /**
@@ -103,11 +101,11 @@ public class GoState extends GameState
         player1captures = addcapture;
     }
 
-    //Todo
     public int getPiece(int row, int col)
     {
-        return 0;
+        return board[row][col];
     }
+
     public void setBoard(int r, int c, int playerID)
     {
         board[r][c] = playerID;
