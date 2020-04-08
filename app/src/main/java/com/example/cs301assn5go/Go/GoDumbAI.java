@@ -43,15 +43,17 @@ public class GoDumbAI extends GameComputerPlayer {
         Random rand = new Random();
         int num = rand.nextInt(size*size);
 
-        for (int x = 0; x < size; x++ ) {
-            for (int y = 0; y < size; y++) {
-                if (board[x][y] == 2) {
-                    num --;
-                    if (num == 0) {
-                        int[] info = new int[2];
-                        info[0] = x;
-                        info[1] = y;
-                        return info;
+        while (num >= 0) {
+            for (int x = 0; x < size; x++) {
+                for (int y = 0; y < size; y++) {
+                    if (board[x][y] == 2) {
+                        num--;
+                        if (num == 0) {
+                            int[] info = new int[2];
+                            info[0] = x;
+                            info[1] = y;
+                            return info;
+                        }
                     }
                 }
             }
