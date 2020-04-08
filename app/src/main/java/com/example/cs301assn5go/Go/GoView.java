@@ -19,6 +19,9 @@ public class GoView extends FlashSurfaceView {
     public GoView(Context context) {
         super(context);
     }
+    public GoView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
     public void onDraw(Canvas c){
         drawBoard(c);
         drawPieces(c);
