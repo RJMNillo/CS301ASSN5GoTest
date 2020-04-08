@@ -5,11 +5,10 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.Gam
 
 public class GoSmartAI extends GameComputerPlayer {
     // Instance Variables
-    float pass; // Chance to pass
-    GameInfo board; // Local understanding of board
-    int[][] memory;
-    float rng;
-    int mypeice; // The color of the player
+    private float pass; // Chance to pass
+    private int[][] memory;
+    private float rng;
+    private int mypeice; // The color of the player
 
     /**
      * constructor
@@ -22,7 +21,9 @@ public class GoSmartAI extends GameComputerPlayer {
 
     @Override
     protected void receiveInfo(GameInfo info) {
-
+        // Accepts info
+        int[][] board; // Local understanding of board
+        pass += 0.02;
     }
 
     /** random: chooses a random position on the board
