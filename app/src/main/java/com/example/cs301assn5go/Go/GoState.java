@@ -28,6 +28,12 @@ public class GoState extends GameState
             playerTurn = 0;
             player0captures = 0;
             player1captures = 0;
+            board = new int[13][13];
+            for(int i = 0; i < 13; i++) {
+                for(int j = 0; j < 13; j++) {
+                    board[i][j] = 2;
+                }
+            }
     }
 
     /**

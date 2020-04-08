@@ -2,6 +2,7 @@ package com.example.cs301assn5go.Go;
 
 import com.example.cs301assn5go.game.GameFramework.GameFramework.GameComputerPlayer;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.GameInfo;
+import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.NotYourTurnInfo;
 
 import java.util.Random;
 
@@ -16,6 +17,7 @@ public class GoDumbAI extends GameComputerPlayer {
 
     @Override
     protected void receiveInfo(GameInfo info) {
+        if (info instanceof NotYourTurnInfo) return;
         // Accepts info
         int[][] board = ((GoState) info).getBoard(); // Local understanding of board
         pass += 0.02;
