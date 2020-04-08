@@ -95,7 +95,7 @@ public class GoView extends FlashSurfaceView {
             whiteStone.setColor(Color.WHITE);
             Paint blackStone = new Paint();
             blackStone.setStyle(Paint.Style.FILL);
-            blackStone.setColor(Color.WHITE);
+            blackStone.setColor(Color.BLACK);
 
             float width = c.getWidth();
             float height = c.getHeight();
@@ -112,11 +112,9 @@ public class GoView extends FlashSurfaceView {
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
                     if (board[i][j] == 0) {
-                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize), (centerY - (boardSize / 2)) + (j * squareSize),
-                                (squareSize / 3), blackStone);
+                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize), (centerY - (boardSize / 2)) + (j * squareSize), (squareSize / 3), blackStone);
                     } else if (board[i][j] == 1) {
-                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize), (centerY - (boardSize / 2)) + (j * squareSize),
-                                (squareSize / 3), whiteStone);
+                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize), (centerY - (boardSize / 2)) + (j * squareSize), (squareSize / 3), whiteStone);
                     }
                 }
             }
