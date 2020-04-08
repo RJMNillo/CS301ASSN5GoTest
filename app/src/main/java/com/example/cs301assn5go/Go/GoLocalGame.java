@@ -26,7 +26,8 @@ public class GoLocalGame extends LocalGame {
     private ArrayList<GameAction> moveList;
 
     // boolean to track if passes are in effect, helps to end the game
-    private boolean passInEffect;
+    private boolean passInEffect1;
+    private boolean passInEffect2;
 
     /**
      * Constructor for the GoLocalGame.
@@ -36,7 +37,8 @@ public class GoLocalGame extends LocalGame {
         state = new GoState();
         moveCount = 0;
         moveList = new ArrayList<>();
-        passInEffect = false;
+        passInEffect1 = false;
+        passInEffect2 = false;
     }
 
     /**
@@ -50,7 +52,7 @@ public class GoLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
         // This function is called if the player passes
-        if (passInEffect) {
+        if (passInEffect2) {
             int gameWinner = 0;
             if (score(0) < score(1)) {
                 gameWinner = 1;
@@ -126,14 +128,27 @@ public class GoLocalGame extends LocalGame {
             moveList.add(action);
 
             // reset passInEffect
-            passInEffect = false;
+            passInEffect1 = false;
 
             // return true, indicating it was a legal move
             return true;
         } else {
             if(action instanceof GoPassAction) {
-                checkIfGameOver();
-                passInEffect = true;
+                if(passInEffect1) {
+                    passInEffect2 = true;
+                }
+                passInEffect1 = true;
+                // get the 0/1 id of the player whose move it is
+                int whoseMove = state.getTurn();
+
+                // make it the other player's turn
+                state.setTurn(1-whoseMove);
+
+                // bump the move count
+                moveCount++;
+
+                // add the move to the move list
+                moveList.add(action);
                 return true;
 
 

@@ -36,7 +36,6 @@ public class GoDumbAI extends GameComputerPlayer {
 
     /** random: chooses a random position on the board
      *
-     * @param board the current game
      */
     private int[] random() {
         int size = 13;

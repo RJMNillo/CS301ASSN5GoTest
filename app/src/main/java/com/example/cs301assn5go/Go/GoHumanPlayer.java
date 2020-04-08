@@ -48,15 +48,17 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
     @Override
     public void onClick(View v) {
-
+        if(v == myActivity.findViewById(R.id.button)) {
+            game.sendAction(new GoPassAction(this));
+        }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if(event.getAction() != MotionEvent.ACTION_UP) return true;
 
-        int x = (int) event.getX();
-        int y = (int) event.getY();
+        float x = event.getX();
+        float y = event.getY();
         Point p = surfaceView.mapPieces(x, y);
 
         if(p == null) {
@@ -108,5 +110,7 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         Logger.log("set listener", "OnTouch");
         surfaceView.setOnTouchListener(this);
         surfaceView.setState(state);
+
+        myActivity.findViewById(R.id.button).setOnClickListener(this);
     }
 }
