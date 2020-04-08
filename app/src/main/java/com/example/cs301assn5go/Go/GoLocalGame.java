@@ -49,9 +49,15 @@ public class GoLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-        //TODO
-        int gameWinner = 0;
-        return playerNames[gameWinner]+" is the winner.";
+        // This function is called if the player passes
+        if (passInEffect) {
+            int gameWinner = 0;
+            if (score(0) < score(1)) {
+                gameWinner = 1;
+            }
+            return playerNames[gameWinner] + " is the winner.";
+        }
+        return null;
     }
 
     /**
@@ -137,5 +143,33 @@ public class GoLocalGame extends LocalGame {
         }
         // then both types of moves failed
         return false;
+    }
+
+    /**
+     * clear_dead: removes dead pieces
+     */
+    private void clear_dead(){
+        //TODO
+    }
+
+    /**
+     * score: counts up score of player
+     *
+     * @param player player id
+     *
+     * @return score of player
+     */
+    private int score(int player){
+        int score = 0;
+        for(int x = 0; x < state.getBoard().length; x ++) {
+            for(int y = 0; y < state.getBoard().length; y ++) {
+                if (player == state.getBoard()[x][y]) {
+                    score ++;
+                }
+            }
+        }
+
+        // Counts up surrounded spaces TODO
+        return score;
     }
 }

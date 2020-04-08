@@ -41,6 +41,7 @@ public class GoState extends GameState
         playerTurn = CurrentState.playerTurn;
         player0captures = CurrentState.player0captures;
         player1captures = CurrentState.player1captures;
+        board = CurrentState.board;
     }
 
     /**
@@ -100,11 +101,11 @@ public class GoState extends GameState
         player1captures = addcapture;
     }
 
-    //Todo
     public int getPiece(int row, int col)
     {
-        return 0;
+        return board[row][col];
     }
+
     public void setBoard(int r, int c, int playerID)
     {
         board[r][c] = playerID;

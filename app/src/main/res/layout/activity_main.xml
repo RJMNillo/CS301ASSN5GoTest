@@ -27,31 +27,19 @@
                 android:id="@+id/TurnView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Turn: " />
+                android:text="@string/turn" />
 
             <TextView
                 android:id="@+id/player0captures"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="P0 Captures: " />
+                android:text="@string/p0_captures" />
 
             <TextView
                 android:id="@+id/player1captures"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="P1 Captures:" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Button" />
+                android:text="@string/p1_captures" />
 
             <Space
                 android:layout_width="match_parent"
@@ -63,7 +51,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="@string/confirm" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/pass" />
 
             <Space
                 android:layout_width="match_parent"
