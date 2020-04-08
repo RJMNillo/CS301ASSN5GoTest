@@ -7,7 +7,10 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.GameHumanPlayer
 import com.example.cs301assn5go.game.GameFramework.GameFramework.GameMainActivity;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.GameInfo;
 
-public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
+public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener
+{
+
+    private GameMainActivity someactivity;
     /**
      * constructor
      *
@@ -38,7 +41,8 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
     }
 
     @Override
-    public void setAsGui(GameMainActivity activity) {
-
+    public void setAsGui(GameMainActivity activity)
+    {
+        //Get the activity
     }
 }

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Tic-Tac-Toe</string>
     <string name="hello_world">Hello world!</string>
+    <string name="turn">Turn:</string>
+    <string name="p0_captures">P0 Captures:</string>
+    <string name="p1_captures">P1 Captures:</string>
+    <string name="confirm">Confirm</string>
+    <string name="pass">Pass</string>
 </resources>
