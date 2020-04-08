@@ -9,7 +9,8 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.Flash
  *
  */
 
-public class GoView extends FlashSurfaceView {
+public class GoView extends FlashSurfaceView
+{
     public GoView(Context context) {
         super(context);
     }
