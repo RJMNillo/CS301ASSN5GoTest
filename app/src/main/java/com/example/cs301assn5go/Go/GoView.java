@@ -16,6 +16,7 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.Flash
 
 public class GoView extends FlashSurfaceView {
     protected GoState state;
+    protected Canvas canvas;
     public GoView(Context context) {
         super(context);
         init();
@@ -29,7 +30,7 @@ public class GoView extends FlashSurfaceView {
         drawPieces(c);
     }
 
-    private void init() { setBackgroundColor(Color.WHITE);}
+    private void init() { setBackgroundColor(Color.LTGRAY);}
 
     public void drawBoard(Canvas c){
         try{
@@ -88,7 +89,7 @@ public class GoView extends FlashSurfaceView {
     public void drawPieces(Canvas c){
         try {
             int[][] board = state.getBoard();
-
+            canvas = c;
             Paint whiteStone = new Paint();
             whiteStone.setStyle(Paint.Style.FILL);
             whiteStone.setColor(Color.WHITE);
@@ -123,9 +124,10 @@ public class GoView extends FlashSurfaceView {
 
         }
     }
-    public Point mapPieces(float xPos, float yPos, Canvas c){
+    public Point mapPieces(float xPos, float yPos){
         //gets the lay of the board and the location
         int[][] board = state.getBoard();
+        Canvas c = canvas;
         float width = c.getWidth();
         float height = c.getHeight();
         float centerX = width/2;

@@ -2,6 +2,7 @@ package com.example.cs301assn5go.Go;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -52,7 +53,22 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        return false;
+        if(event.getAction() != MotionEvent.ACTION_UP) return true;
+
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        Point p = surfaceView.mapPieces(x, y);
+
+        if(p == null) {
+            surfaceView.flash(Color.RED, 50);
+        } else {
+            GoMoveAction action = new GoMoveAction(this, p.x, p.y);
+            Logger.log("onTouch", "Human player sending GMA ...");
+            game.sendAction(action);
+            surfaceView.invalidate();
+        }
+
+        return true;
     }
 
     @Override
