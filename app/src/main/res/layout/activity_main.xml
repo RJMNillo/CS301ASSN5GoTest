@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/top_gui_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Go.GoActivity">
@@ -11,10 +12,10 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.example.cs301assn5go.Go.GoView
+            android:id="@+id/surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
             android:layout_weight="1" />
 
         <LinearLayout

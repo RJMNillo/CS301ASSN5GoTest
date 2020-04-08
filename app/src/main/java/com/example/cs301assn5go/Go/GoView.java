@@ -151,4 +151,6 @@ public class GoView extends FlashSurfaceView {
         }
         return new Point();
     }
+
+    public void setState(GoState state) { this.state = state; }
 }
