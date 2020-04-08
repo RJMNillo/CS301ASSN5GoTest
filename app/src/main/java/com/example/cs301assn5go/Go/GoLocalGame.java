@@ -125,22 +125,21 @@ public class GoLocalGame extends LocalGame {
             // add the move to the move list
             moveList.add(action);
 
+            // reset passInEffect
+            passInEffect = false;
+
             // return true, indicating it was a legal move
             return true;
         } else {
             if(action instanceof GoPassAction) {
-                if(passInEffect) {
-                    checkIfGameOver();
-                    return true;
-                } else {
-                    // set passInEffect to true
-                    passInEffect = true;
+                checkIfGameOver();
+                passInEffect = true;
+                return true;
 
-                    // return true, indicating it was a legal move
-                    return true;
+
+                // return true, indicating it was a legal move
                 }
             }
-        }
         // then both types of moves failed
         return false;
     }
