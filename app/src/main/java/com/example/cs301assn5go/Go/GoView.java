@@ -18,17 +18,23 @@ public class GoView extends FlashSurfaceView {
     protected GoState state;
     public GoView(Context context) {
         super(context);
+        init();
     }
     public GoView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
     public void onDraw(Canvas c){
         drawBoard(c);
         drawPieces(c);
     }
+
+    private void init() { setBackgroundColor(Color.WHITE);}
+
     public void drawBoard(Canvas c){
-        int[][] board = state.getBoard();
-        int width = c.getWidth();
+        try{
+            int[][] board = state.getBoard();
+            int width = c.getWidth();
         int height = c.getHeight();
         float centerX = (float)width/2;
         float centerY = (float)height/2;
@@ -54,6 +60,9 @@ public class GoView extends FlashSurfaceView {
             x = centerX - (boardSize/2);
             y+=squareSize;
         }
+        } catch(NullPointerException e) {
+
+        }
 
         //Code for drawing a board just a little bit in from the top left corner of screen
         //just in case the centered drawing above doesn't work
@@ -77,37 +86,41 @@ public class GoView extends FlashSurfaceView {
         */
     }
     public void drawPieces(Canvas c){
-        int[][] board = state.getBoard();
+        try {
+            int[][] board = state.getBoard();
 
-        Paint whiteStone = new Paint();
-        whiteStone.setStyle(Paint.Style.FILL);
-        whiteStone.setColor(Color.WHITE);
-        Paint blackStone = new Paint();
-        blackStone.setStyle(Paint.Style.FILL);
-        blackStone.setColor(Color.WHITE);
+            Paint whiteStone = new Paint();
+            whiteStone.setStyle(Paint.Style.FILL);
+            whiteStone.setColor(Color.WHITE);
+            Paint blackStone = new Paint();
+            blackStone.setStyle(Paint.Style.FILL);
+            blackStone.setColor(Color.WHITE);
 
-        float width = c.getWidth();
-        float height = c.getHeight();
-        float centerX = width/2;
-        float centerY = height/2;
+            float width = c.getWidth();
+            float height = c.getHeight();
+            float centerX = width / 2;
+            float centerY = height / 2;
 
-        float boardSize = 0;
-        if(width>height)
-            boardSize = height - 50;
-        else
-            boardSize = width - 50;
-        float squareSize = boardSize / 12;
+            float boardSize = 0;
+            if (width > height)
+                boardSize = height - 50;
+            else
+                boardSize = width - 50;
+            float squareSize = boardSize / 12;
 
-        for(int i = 0; i<board.length; i++){
-            for(int j = 0; j<board.length; j++){
-                if(board[i][j] == 0){
-                    c.drawCircle((centerX-(boardSize/2))+(i*squareSize),(centerY-(boardSize/2))+(j*squareSize),
-                            (squareSize/3), blackStone);
-                } else if(board[i][j] == 1){
-                    c.drawCircle((centerX-(boardSize/2))+(i*squareSize), (centerY-(boardSize/2))+(j*squareSize),
-                            (squareSize/3), whiteStone);
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board.length; j++) {
+                    if (board[i][j] == 0) {
+                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize), (centerY - (boardSize / 2)) + (j * squareSize),
+                                (squareSize / 3), blackStone);
+                    } else if (board[i][j] == 1) {
+                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize), (centerY - (boardSize / 2)) + (j * squareSize),
+                                (squareSize / 3), whiteStone);
+                    }
                 }
             }
+        } catch(NullPointerException e) {
+
         }
     }
     public Point mapPieces(float xPos, float yPos, Canvas c){
