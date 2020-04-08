@@ -101,8 +101,12 @@ public class GoState extends GameState
     }
 
     //Todo
-    public int getPiece(int row, int col) {
+    public int getPiece(int row, int col)
+    {
         return 0;
     }
-    public void setBoard(int r, int c, int playerID){}
+    public void setBoard(int r, int c, int playerID)
+    {
+        board[r][c] = playerID;
+    }
 }
