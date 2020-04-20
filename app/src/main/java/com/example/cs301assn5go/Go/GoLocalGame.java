@@ -162,6 +162,7 @@ public class GoLocalGame extends LocalGame {
         return false;
     }
 
+    //ONLY IF LIBERTIES ARE SURROUNDING BY 4 OF THE OPPOSITE STONE
     private void checkIfCaptured(){
         int[][] board = state.getBoard();
         for(int i = 0; i<board.length; i++){
