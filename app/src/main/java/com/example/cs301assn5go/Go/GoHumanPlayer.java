@@ -1,8 +1,11 @@
 package com.example.cs301assn5go.Go;
 
 import android.app.Activity;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -34,6 +37,9 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
     // the state
     private GoState state;
 
+    // point that is not yet confirmed
+    private Point notPoint;
+
     // the ID for the layout to use
     private int layoutID;
 
@@ -49,7 +55,18 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
     @Override
     public void onClick(View v) {
         if(v == myActivity.findViewById(R.id.button)) {
+            Logger.log("onClick", "pass sent");
             game.sendAction(new GoPassAction(this));
+        } else if(v == myActivity.findViewById(R.id.button2)){
+            Logger.log("onClick", "confirm was clicked");
+            if(notPoint!=null){
+                //game.sendAction(new GoMoveAction(this, notPoint.x, notPoint.y));
+                //Logger.log("onClick", "was sent");
+                //notPoint = null;
+                //surfaceView.invalidate();
+            } else {
+                surfaceView.flash(Color.RED, 50);
+            }
         }
     }
 
@@ -67,6 +84,7 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
             GoMoveAction action = new GoMoveAction(this, p.x, p.y);
             Logger.log("onTouch", "Human player sending GMA ...");
             game.sendAction(action);
+            //notPoint = p;
             surfaceView.invalidate();
         }
 

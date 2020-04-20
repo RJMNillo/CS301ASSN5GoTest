@@ -106,6 +106,12 @@ public class GoState extends GameState
     {
         player1captures = addcapture;
     }
+    public void addPlayer0Captures(){
+        player0captures++;
+    }
+    public void addPlayer1Captures(){
+        player1captures++;
+    }
 
     public int getPiece(int row, int col)
     {

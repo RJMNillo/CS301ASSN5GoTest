@@ -96,6 +96,11 @@ public class GoView extends FlashSurfaceView {
         }
         */
     }
+
+    public Canvas getCanvas(){
+        return canvas;
+    }
+
     public void drawPieces(Canvas c){
         try {
             int[][] board = state.getBoard();

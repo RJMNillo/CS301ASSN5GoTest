@@ -127,6 +127,9 @@ public class GoLocalGame extends LocalGame {
             // add the move to the move list
             moveList.add(action);
 
+            //clears captured pieces if any
+            checkIfCaptured();
+
             // reset passInEffect
             passInEffect1 = false;
 
@@ -159,10 +162,91 @@ public class GoLocalGame extends LocalGame {
         return false;
     }
 
+    private void checkIfCaptured(){
+        int[][] board = state.getBoard();
+        for(int i = 0; i<board.length; i++){
+            for(int j = 0; j<board.length; j++){
+                if(i == 0 && j == 0){
+                    if(board[i][j] == 0 && board[i+1][j] == 1 && board[i][j+1] == 1){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    } else if(board[i][j] == 1 && board[i+1][j] == 0 && board[i][j+1] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                } else if(i == board.length-1 && j == board.length-1){
+                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j-1] == 1){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j-1] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                } else if(i == 0 && j == board.length-1){
+                    if(board[i][j] == 0 && board[i+1][j] == 1 && board[i][j-1] == 1){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    } else if(board[i][j] == 1 && board[i+1][j] == 0 && board[i][j-1] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                } else if(i == board.length-1 && j == 0){
+                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j+1] == 1){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j+1] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }else if(i == 0 && j < board.length-1){
+                    if(board[i][j] == 0 && board[i+1][j] == 1 && board[i][j-1] == 1 && board[i][j+1] == 1){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    } else if(board[i][j] == 1 && board[i+1][j] == 0 && board[i][j-1] == 0 && board[i][j+1] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                } else if(i == board.length - 1 && j < board.length-1){
+                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j-1] == 1 && board[i][j+1] == 1){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j-1] == 0 && board[i][j+1] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                } else if(j == 0 && i < board.length-1){
+                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j+1] == 1 && board[i+1][j] == 1){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j+1] == 0 && board[i+1][j] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                } else if(j == board.length - 1 && i < board.length-1){
+                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j-1] == 1 && board[i+1][j] == 1){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j-1] == 0 && board[i+1][j] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                } else {
+                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j-1] == 1 && board[i][j+1] == 1 && board[i+1][j] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j-1] == 0 && board[i][j+1] == 0 && board[i+1][j] == 0){
+                        board[i][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * clear_dead: removes dead pieces
      */
-    private void clear_dead(){
+    private void clearDead(){
         //TODO
     }
 
