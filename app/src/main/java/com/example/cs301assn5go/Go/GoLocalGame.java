@@ -103,14 +103,44 @@ public class GoLocalGame extends LocalGame {
             GoMoveAction gm = (GoMoveAction) action;
             int row = gm.getRow();
             int col = gm.getCol();
+            int [][] board = state.getBoard();
 
             // get the 0/1 id of our player
             int playerId = getPlayerIdx(gm.getPlayer());
 
+
             // if that space is not legal
-            if(state.getPiece(row, col) != 2) { // TODO **********FOR NOW THIS JUST CHECKS IF THE SPOT IS EMPTY
+            if (state.getPiece(row, col) != 2) {
                 return false;
             }
+            int up;
+            int down;
+            int left;
+            int right;
+            try {
+                up = board[row - 1][col];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                up = 3;
+            }
+            try {
+                down = board[row + 1][col];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                down = 3;
+            }
+            try {
+                left = board[row][col - 1];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                left = 3;
+            }
+            try {
+                right = board[row][col + 1];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                right = 3;
+            }
+            if (up != 2 && down != 2 && left != 2 && right != 2) {
+                return false;
+            }
+
 
             // get the 0/1 id of the player whose move it is
             int whoseMove = state.getTurn();
@@ -123,6 +153,9 @@ public class GoLocalGame extends LocalGame {
 
             // bump the move count
             moveCount++;
+
+            // clear dead pieces
+            clear_dead();
 
             // add the move to the move list
             moveList.add(action);
@@ -163,7 +196,75 @@ public class GoLocalGame extends LocalGame {
      * clear_dead: removes dead pieces
      */
     private void clear_dead(){
-        //TODO
+        int [][] board = state.getBoard();
+        for(int x = 0; x < board.length; x++) {
+            for(int y = 0; y < board[x].length; y++) {
+                if(board[x][y] != 2) {
+                    check_liberty(board, x, y);
+                }
+            }
+        }
+    }
+
+    private boolean check_liberty(int[][] board, int x, int y) {
+        int up;
+        int down;
+        int left;
+        int right;
+        try {
+            up = board[x - 1][y];
+        } catch(ArrayIndexOutOfBoundsException e) {
+            up = 3;
+        }
+        try {
+            down = board[x + 1][y];
+        } catch(ArrayIndexOutOfBoundsException e) {
+            down = 3;
+        }
+        try {
+            left = board[x][y - 1];
+        } catch(ArrayIndexOutOfBoundsException e) {
+            left = 3;
+        }
+        try {
+            right = board[x][y + 1];
+        } catch(ArrayIndexOutOfBoundsException e) {
+            right = 3;
+        }
+            if(up == 2 || down == 2 || left == 2 || right == 2) {
+                return true;
+            } else if(up == board[x][y]) {
+                if(!(check_liberty(board, x-1, y))) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else if(down == board[x][y]) {
+                if(!(check_liberty(board, x+1, y))) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else if(left == board[x][y]) {
+                if(!(check_liberty(board, x, y-1))) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else if(right == board[x][y]) {
+                if(!(check_liberty(board, x, y+1))) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            if(board[x][y] == 0) {
+                state.setPlayer1captures(state.getPlayer1captures()+1);
+            } else {
+                state.setPlayer0captures(state.getPlayer0captures()+1);
+            }
+            board[x][y] = 2;
+            return false;
     }
 
     /**
