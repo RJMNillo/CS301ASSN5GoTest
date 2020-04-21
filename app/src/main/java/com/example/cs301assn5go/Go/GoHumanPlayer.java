@@ -8,6 +8,8 @@ import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.cs301assn5go.R;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.GameHumanPlayer;
@@ -17,11 +19,13 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.Ill
 import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.NotYourTurnInfo;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.Logger;
 
+import org.w3c.dom.Text;
+
 /**
  * A GUI that allows a human to play Go. Moves are made by clicking
  * regions on a canvas and confirming with a button
  *
- * @author Braeden Lane
+ * @author Braeden Lane, Reggie Jan Marc Nillo
  * @version April 2020
  */
 public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
@@ -42,6 +46,14 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
     // the ID for the layout to use
     private int layoutID;
+
+    //Modified Text Widgets
+    private TextView P0captures = null;
+    private TextView CurrentTurn = null;
+    private TextView P1Captures = null;
+    private Button ConfirmButton = null;
+    private Button PassButton = null;
+
 
     /**
      * constructor
@@ -128,6 +140,15 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         Logger.log("set listener", "OnTouch");
         surfaceView.setOnTouchListener(this);
         surfaceView.setState(state);
+
+        //Set the values for the text
+        CurrentTurn = (TextView)activity.findViewById(R.id.TurnView);
+        P0captures = (TextView)activity.findViewById(R.id.player0captures);
+        P1Captures = (TextView)activity.findViewById(R.id.player1captures);
+        //Values for the buttons
+        ConfirmButton = (Button)activity.findViewById(R.id.button2);
+        PassButton = (Button)activity.findViewById(R.id.button);
+
 
         myActivity.findViewById(R.id.button).setOnClickListener(this);
     }
