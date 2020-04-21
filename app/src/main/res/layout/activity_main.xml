@@ -28,19 +28,19 @@
                 android:id="@+id/TurnView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/turn" />
+                android:text="Turn: " />
 
             <TextView
                 android:id="@+id/player0captures"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/p0_captures" />
+                android:text="P0 Captures: " />
 
             <TextView
                 android:id="@+id/player1captures"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/p1_captures" />
+                android:text="P1 Captures: " />
 
             <Space
                 android:layout_width="match_parent"
