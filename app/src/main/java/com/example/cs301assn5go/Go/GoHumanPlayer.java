@@ -150,7 +150,7 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         PassButton = (Button)activity.findViewById(R.id.button);
 
 
-        myActivity.findViewById(R.id.button).setOnClickListener(this);
         ConfirmButton.setOnClickListener(this);
+        PassButton.setOnClickListener(this);
     }
 }
