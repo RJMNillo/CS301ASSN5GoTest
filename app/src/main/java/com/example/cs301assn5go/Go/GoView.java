@@ -26,8 +26,14 @@ public class GoView extends FlashSurfaceView {
         init();
     }
     public void onDraw(Canvas c){
+        Paint boardBackground = new Paint();
+        boardBackground.setColor(Color.YELLOW);
         drawBoard(c);
         drawPieces(c);
+        Paint name = new Paint();
+        name.setStyle(Paint.Style.FILL);
+        name.setColor(Color.BLACK);
+        //draw name of player
     }
 
     private void init() { setBackgroundColor(Color.LTGRAY);}
@@ -53,6 +59,10 @@ public class GoView extends FlashSurfaceView {
         float y = centerY - (boardSize/2);
         float squareSize = boardSize / 12;
 
+            Paint boardBackground = new Paint();
+            boardBackground.setColor(Color.rgb(255,212,35));
+            boardBackground.setAlpha(155);
+            c.drawRect(x,y,x+boardSize, y+boardSize, boardBackground);
         for(int i = 0; i<board.length-1; i++){
             for(int j = 0; j<board.length-1; j++){
                 c.drawRect(x, y, x+squareSize, y+squareSize, square);
@@ -86,6 +96,11 @@ public class GoView extends FlashSurfaceView {
         }
         */
     }
+
+    public Canvas getCanvas(){
+        return canvas;
+    }
+
     public void drawPieces(Canvas c){
         try {
             int[][] board = state.getBoard();
@@ -112,9 +127,11 @@ public class GoView extends FlashSurfaceView {
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
                     if (board[i][j] == 0) {
-                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize), (centerY - (boardSize / 2)) + (j * squareSize), (squareSize / 3), blackStone);
+                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize),
+                                (centerY - (boardSize / 2)) + (j * squareSize), (squareSize / 20)*9, blackStone);
                     } else if (board[i][j] == 1) {
-                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize), (centerY - (boardSize / 2)) + (j * squareSize), (squareSize / 3), whiteStone);
+                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize),
+                                (centerY - (boardSize / 2)) + (j * squareSize), (squareSize / 20)*9, whiteStone);
                     }
                 }
             }
