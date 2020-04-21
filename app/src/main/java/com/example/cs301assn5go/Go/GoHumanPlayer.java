@@ -72,10 +72,10 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         } else if(v == myActivity.findViewById(R.id.button2)){
             Logger.log("onClick", "confirm was clicked");
             if(notPoint!=null){
-                //game.sendAction(new GoMoveAction(this, notPoint.x, notPoint.y));
-                //Logger.log("onClick", "was sent");
-                //notPoint = null;
-                //surfaceView.invalidate();
+                game.sendAction(new GoMoveAction(this, notPoint.x, notPoint.y));
+                Logger.log("onClick", "was sent");
+                notPoint = null;
+                surfaceView.invalidate();
             } else {
                 surfaceView.flash(Color.RED, 50);
             }
@@ -95,8 +95,8 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         } else {
             GoMoveAction action = new GoMoveAction(this, p.x, p.y);
             Logger.log("onTouch", "Human player sending GMA ...");
-            game.sendAction(action);
-            //notPoint = p;
+            //game.sendAction(action);
+            notPoint = p;
             surfaceView.invalidate();
         }
 
@@ -151,5 +151,6 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
 
         myActivity.findViewById(R.id.button).setOnClickListener(this);
+        ConfirmButton.setOnClickListener(this);
     }
 }
