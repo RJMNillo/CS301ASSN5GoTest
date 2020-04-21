@@ -103,6 +103,7 @@ public class GoLocalGame extends LocalGame {
             GoMoveAction gm = (GoMoveAction) action;
             int row = gm.getRow();
             int col = gm.getCol();
+            int [][] board = state.getBoard();
 
             // get the 0/1 id of our player
             int playerId = getPlayerIdx(gm.getPlayer());
@@ -111,7 +112,33 @@ public class GoLocalGame extends LocalGame {
             if(state.getPiece(row, col) != 2) { // TODO **********FOR NOW THIS JUST CHECKS IF THE SPOT IS EMPTY
                 return false;
             }
-
+            int up;
+            int down;
+            int left;
+            int right;
+            try {
+                up = board[row - 1][col];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                up = 3;
+            }
+            try {
+                down = board[row + 1][col];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                down = 3;
+            }
+            try {
+                left = board[row][col - 1];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                left = 3;
+            }
+            try {
+                right = board[row][col + 1];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                right = 3;
+            }
+            if (up != 2 && down != 2 && left != 2 && right != 2) {
+                return false;
+            }
             // get the 0/1 id of the player whose move it is
             int whoseMove = state.getTurn();
 
