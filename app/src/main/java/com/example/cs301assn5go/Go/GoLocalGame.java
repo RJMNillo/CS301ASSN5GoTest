@@ -1,5 +1,7 @@
 package com.example.cs301assn5go.Go;
 
+import android.graphics.Point;
+
 import com.example.cs301assn5go.game.GameFramework.GameFramework.GamePlayer;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.LocalGame;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage.GameAction;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  * The GoLocalGame class for a simple Go game. Defines and enforces
  * the game rules; handles interactions with players.
  *
- * @author Braeden Lane
+ * @author Braeden Lane, Vandan Bhargava
  * @version April 2020
  */
 public class GoLocalGame extends LocalGame {
@@ -28,6 +30,8 @@ public class GoLocalGame extends LocalGame {
     // boolean to track if passes are in effect, helps to end the game
     private boolean passInEffect1;
     private boolean passInEffect2;
+
+    private ArrayList<Point> toBeDeleted = new ArrayList<Point>();
 
     /**
      * Constructor for the GoLocalGame.
@@ -155,7 +159,7 @@ public class GoLocalGame extends LocalGame {
             moveList.add(action);
 
             //clears captured pieces if any
-            checkIfCaptured();
+            checkIfCaptured(row,col);
 
             // reset passInEffect
             passInEffect1 = false;
@@ -190,85 +194,623 @@ public class GoLocalGame extends LocalGame {
     }
 
     //ONLY IF LIBERTIES ARE SURROUNDING BY 4 OF THE OPPOSITE STONE
-    private void checkIfCaptured(){
-        int[][] board = state.getBoard();
-        for(int i = 0; i<board.length; i++){
-            for(int j = 0; j<board.length; j++){
-                if(i == 0 && j == 0){
-                    if(board[i][j] == 0 && board[i+1][j] == 1 && board[i][j+1] == 1){
-                        board[i][j] = 2;
-                        state.addPlayer1Captures();
-                    } else if(board[i][j] == 1 && board[i+1][j] == 0 && board[i][j+1] == 0){
-                        board[i][j] = 2;
+    private void checkIfCaptured(int row, int col){
+        int[][] realBoard = state.getBoard();
+        int[][] board = realBoard;
+        int i = row;
+        int j = col;
+        if(i == 0 && j == 0){
+            if(board[i][j] == 0){
+                if(board[i+1][j] == 1){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
                         state.addPlayer0Captures();
                     }
-                } else if(i == board.length-1 && j == board.length-1){
-                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j-1] == 1){
-                        board[i][j] = 2;
-                        state.addPlayer1Captures();
-                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j-1] == 0){
-                        board[i][j] = 2;
+                }
+                if(board[i][j+1] == 1){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
                         state.addPlayer0Captures();
                     }
-                } else if(i == 0 && j == board.length-1){
-                    if(board[i][j] == 0 && board[i+1][j] == 1 && board[i][j-1] == 1){
-                        board[i][j] = 2;
+                }
+            } else if(board[i][j] == 1){
+                if(board[i+1][j] == 0){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
                         state.addPlayer1Captures();
-                    } else if(board[i][j] == 1 && board[i+1][j] == 0 && board[i][j-1] == 0){
-                        board[i][j] = 2;
-                        state.addPlayer0Captures();
                     }
-                } else if(i == board.length-1 && j == 0){
-                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j+1] == 1){
-                        board[i][j] = 2;
-                        state.addPlayer1Captures();
-                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j+1] == 0){
-                        board[i][j] = 2;
-                        state.addPlayer0Captures();
-                    }
-                }else if(i == 0 && j < board.length-1){
-                    if(board[i][j] == 0 && board[i+1][j] == 1 && board[i][j-1] == 1 && board[i][j+1] == 1){
-                        board[i][j] = 2;
-                        state.addPlayer1Captures();
-                    } else if(board[i][j] == 1 && board[i+1][j] == 0 && board[i][j-1] == 0 && board[i][j+1] == 0){
-                        board[i][j] = 2;
-                        state.addPlayer0Captures();
-                    }
-                } else if(i == board.length - 1 && j < board.length-1){
-                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j-1] == 1 && board[i][j+1] == 1){
-                        board[i][j] = 2;
-                        state.addPlayer1Captures();
-                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j-1] == 0 && board[i][j+1] == 0){
-                        board[i][j] = 2;
-                        state.addPlayer0Captures();
-                    }
-                } else if(j == 0 && i < board.length-1){
-                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j+1] == 1 && board[i+1][j] == 1){
-                        board[i][j] = 2;
-                        state.addPlayer1Captures();
-                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j+1] == 0 && board[i+1][j] == 0){
-                        board[i][j] = 2;
-                        state.addPlayer0Captures();
-                    }
-                } else if(j == board.length - 1 && i < board.length-1){
-                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j-1] == 1 && board[i+1][j] == 1){
-                        board[i][j] = 2;
-                        state.addPlayer1Captures();
-                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j-1] == 0 && board[i+1][j] == 0){
-                        board[i][j] = 2;
-                        state.addPlayer0Captures();
-                    }
-                } else {
-                    if(board[i][j] == 0 && board[i-1][j] == 1 && board[i][j-1] == 1 && board[i][j+1] == 1 && board[i+1][j] == 0){
-                        board[i][j] = 2;
-                        state.addPlayer1Captures();
-                    } else if(board[i][j] == 1 && board[i-1][j] == 0 && board[i][j-1] == 0 && board[i][j+1] == 0 && board[i+1][j] == 0){
-                        board[i][j] = 2;
+                }
+                if(board[i][j+1] == 0){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
                         state.addPlayer1Captures();
                     }
                 }
             }
+        } else if(i == board.length-1 && j == board.length-1){
+            if(board[i][j] == 0){
+                if(board[i-1][j] == 1){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j-1] == 1){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+            } else if(board[i][j] == 1){
+                if(board[i-1][j] == 0){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j-1] == 0){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+            }
+        } else if(i == 0 && j == board.length-1){
+            if(board[i][j] == 0){
+                if(board[i+1][j] == 1){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j-1] == 1){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+            } else if(board[i][j] == 1){
+                if(board[i+1][j] == 0){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j-1] == 0){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+            }
+        } else if(i == board.length-1 && j == 0){
+            if(board[i][j] == 0){
+                if(board[i+1][j] == 1){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j+1] == 1){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+            } else if(board[i][j] == 1){
+                if(board[i+1][j] == 0){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j+1] == 0){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+            }
+        } else if(i == 0 && j < board.length-1){
+            if(board[i][j] == 0){
+                if(board[i+1][j] == 1){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j+1] == 1){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j-1] == 1){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+            } else if(board[i][j] == 1){
+                if(board[i+1][j] == 0){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j+1] == 0){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j-1] == 0){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+            }
+        } else if(i == board.length - 1 && j < board.length-1){
+            if(board[i][j] == 0){
+                if(board[i-1][j] == 1){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j+1] == 1){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j-1] == 1){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+            } else if(board[i][j] == 1){
+                if(board[i-1][j] == 0){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j+1] == 0){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j-1] == 0){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+            }
+        } else if(j == 0 && i < board.length-1){
+            if(board[i][j] == 0){
+                if(board[i-1][j] == 1){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i+1][j] == 1){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j+1] == 1){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+            } else if(board[i][j] == 1){
+                if(board[i-1][j] == 0){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i+1][j] == 0){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j+1] == 0){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+            }
+        } else if(j == board.length - 1 && i < board.length-1){
+            if(board[i][j] == 0){
+                if(board[i-1][j] == 1){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i+1][j] == 1){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j-1] == 1){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+            } else if(board[i][j] == 1){
+                if(board[i-1][j] == 0){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i+1][j] == 0){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j-1] == 0){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+            }
+        } else {
+            if(board[i][j] == 0){
+                if(board[i-1][j] == 1){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i+1][j] == 1){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j-1] == 1){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+                if(board[i][j+1] == 1){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+            } else if(board[i][j] == 1){
+                if(board[i-1][j] == 0){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i+1][j] == 0){
+                    if(checkIfLocked(i+1, j, realBoard)){
+                        realBoard[i+1][j] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j-1] == 0){
+                    if(checkIfLocked(i, j-1, realBoard)){
+                        realBoard[i][j-1] = 2;
+                        state.addPlayer1Captures();
+                    }
+                }
+                if(board[i][j+1] == 1){
+                    if(checkIfLocked(i, j+1, realBoard)){
+                        realBoard[i][j+1] = 2;
+                        state.addPlayer0Captures();
+                    }
+                }
+            }
         }
+        for(int k = 0; k<toBeDeleted.size(); k++){
+            realBoard[toBeDeleted.get(k).x][toBeDeleted.get(k).y] = 2;
+        }
+        toBeDeleted = new ArrayList<Point>();
+    }
+
+    private boolean checkIfLocked(int row, int col, int[][] givenBoard){
+        int[][] realBoard = givenBoard;
+        int[][] board = new int[realBoard.length][realBoard.length];
+        ArrayList<Point> potentialToBeDeleted = new ArrayList<Point>();
+        for(int i = 0; i<realBoard.length; i++){
+            for(int j = 0; j<realBoard.length; j++){
+                board[i][j] = realBoard[i][j];
+            }
+        }
+        if(row >= board.length || col >= board.length){
+            return false;
+        }
+        int i = row;
+        int j = col;
+        int colorCheck = realBoard[row][col];
+        board[i][j] = 8;
+        boolean checker = false;
+        int liberties = 10;
+        if(i == 0 && j == 0){
+            liberties = 2;
+            if(board[i+1][j] == 2){
+                liberties = 10;
+            } else if(board[i+1][j] == colorCheck){
+                if(checkIfLocked(i+1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i+1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j+1] == 2){
+                liberties = 10;
+            } else if(board[i][j+1] == colorCheck){
+                if(checkIfLocked(i, j+1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j+1));
+                }
+            } else {
+                liberties--;
+            }
+        } else if(i == 0 && j == board.length-1){
+            liberties = 2;
+            if(board[i+1][j] == 2){
+                liberties = 10;
+            } else if(board[i+1][j] == colorCheck){
+                if(checkIfLocked(i+1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i+1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j-1] == 2){
+                liberties = 10;
+            } else if(board[i][j-1] == colorCheck){
+                if(checkIfLocked(i, j-1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j-1));
+                }
+            } else {
+                liberties--;
+            }
+        } else if(i == board.length-1 && j == board.length-1){
+            liberties = 2;
+            if(board[i-1][j] == 2){
+                liberties=10;
+            } else if(board[i-1][j] == colorCheck){
+                if (checkIfLocked(i - 1, j, board)) {
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i-1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j-1] == 2){
+                liberties = 10;
+            } else if(board[i][j-1] == colorCheck){
+                if(checkIfLocked(i, j-1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j-1));
+                }
+            } else {
+                liberties--;
+            }
+        } else if(i == board.length-1 && j == 0){
+            liberties = 2;
+            if(board[i-1][j] == 2){
+                liberties = 10;
+            } else if(board[i-1][j] == colorCheck){
+                if(checkIfLocked(i-1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i-1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j+1] == 2){
+                liberties = 10;
+            } else if(board[i][j+1] == colorCheck){
+                if(checkIfLocked(i, j+1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j+1));
+                }
+            } else {
+                liberties--;
+            }
+        } else if(i == 0 && j < board.length-1){
+            liberties = 3;
+            if(board[i+1][j] == 2){
+                liberties = 10;
+            } else if(board[i+1][j] == colorCheck){
+                if(checkIfLocked(i+1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i+1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j-1] == 2){
+                liberties = 10;
+            } else if(board[i][j-1] == colorCheck){
+                if(checkIfLocked(i, j-1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j-1));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j+1] == 2){
+                liberties = 10;
+            } else if(board[i][j+1] == colorCheck){
+                if(checkIfLocked(i, j+1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j+1));
+                }
+            } else {
+                liberties--;
+            }
+        } else if(i < board.length-1 && j == 0){
+            liberties = 3;
+            if(board[i+1][j] == 2){
+                liberties=10;
+            } else if(board[i+1][j] == colorCheck){
+                if(checkIfLocked(i+1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i+1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i-1][j] == 2){
+                liberties = 10;
+            } else if(board[i-1][j] == colorCheck){
+                if(checkIfLocked(i-1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i-1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j+1] == 2){
+                liberties=10;
+            } else if(board[i][j+1] == colorCheck){
+                if(checkIfLocked(i,j+1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j+1));
+                }
+            } else {
+                liberties--;
+            }
+        } else if(i < board.length-1 && j == board.length-1){
+            liberties = 3;
+            if(board[i+1][j] == 2){
+                liberties = 10;
+            } else if(board[i+1][j] == colorCheck){
+                if(checkIfLocked(i+1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i+1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j-1] == 2){
+                liberties = 10;
+            } else if(board[i][j-1] == colorCheck){
+                if(checkIfLocked(i,j-1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j-1));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i-1][j] == 2){
+                liberties=10;
+            } else if(board[i-1][j] == colorCheck){
+                if(checkIfLocked(i-1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i-1, j));
+                }
+            } else {
+                liberties--;
+            }
+        } else if(i == board.length-1 && j < board.length-1){
+            liberties = 3;
+            if(board[i-1][j] == 2){
+                liberties=10;
+            } else if(board[i-1][j] == colorCheck){
+                if(checkIfLocked(i-1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i-1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j-1] == 2){
+                liberties=10;
+            } else if(board[i][j-1] == colorCheck){
+                if(checkIfLocked(i, j-1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j-1));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j+1] == 2){
+                liberties=10;
+            } else if(board[i][j+1] == colorCheck){
+                if(checkIfLocked(i, j+1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j+1));
+                }
+            } else {
+                liberties--;
+            }
+        } else {
+            liberties = 4;
+            if(board[i+1][j] == 2){
+                liberties=10;
+            } else if(board[i+1][j] == colorCheck){
+                if(checkIfLocked(i+1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i+1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i-1][j] == 2){
+                liberties=10;
+            } else if(board[i-1][j] == colorCheck){
+                if(checkIfLocked(i-1, j, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i-1, j));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j-1] == 2){
+                liberties=10;
+            } else if(board[i][j-1] == colorCheck){
+                if(checkIfLocked(i, j-1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j-1));
+                }
+            } else {
+                liberties--;
+            }
+            if(board[i][j+1] == 2){
+                liberties=10;
+            } else if(board[i][j+1] == colorCheck){
+                if(checkIfLocked(i,j+1, board)){
+                    liberties--;
+                    potentialToBeDeleted.add(new Point(i, j+1));
+                }
+            } else {
+                liberties--;
+            }
+        }
+        if(liberties == 0){
+            toBeDeleted.addAll(potentialToBeDeleted);
+        }
+        return (liberties == 0);
     }
 
     /**

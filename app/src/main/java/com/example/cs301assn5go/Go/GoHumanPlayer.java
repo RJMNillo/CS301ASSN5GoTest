@@ -25,7 +25,7 @@ import org.w3c.dom.Text;
  * A GUI that allows a human to play Go. Moves are made by clicking
  * regions on a canvas and confirming with a button
  *
- * @author Braeden Lane, Reggie Jan Marc Nillo
+ * @author Braeden Lane, Vandan Bhargava, Reggie Jan Marc Nillo
  * @version April 2020
  */
 public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
@@ -48,11 +48,11 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
     private int layoutID;
 
     //Modified Text Widgets
-    private TextView P0captures = null;
-    private TextView CurrentTurn = null;
-    private TextView P1Captures = null;
-    private Button ConfirmButton = null;
-    private Button PassButton = null;
+    private TextView P0captures;
+    private TextView CurrentTurn;
+    private TextView P1captures;
+    private Button ConfirmButton;
+    private Button PassButton;
 
 
     /**
@@ -122,6 +122,9 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         else {
             state = (GoState)info;
             surfaceView.setState(state);
+            //CurrentTurn.setText("Turn: Player " + state.getTurn());
+            //P0captures.setText("Player 0 Captures: " + state.getPlayer0captures());
+            //P1captures.setText("Player 1 Captures: " + state.getPlayer1captures());
             surfaceView.invalidate();
             Logger.log(TAG, "receiving");
         }
@@ -144,7 +147,7 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         //Set the values for the text
         CurrentTurn = (TextView)activity.findViewById(R.id.TurnView);
         P0captures = (TextView)activity.findViewById(R.id.player0captures);
-        P1Captures = (TextView)activity.findViewById(R.id.player1captures);
+        P1captures = (TextView)activity.findViewById(R.id.player1captures);
         //Values for the buttons
         ConfirmButton = (Button)activity.findViewById(R.id.button2);
         PassButton = (Button)activity.findViewById(R.id.button);
