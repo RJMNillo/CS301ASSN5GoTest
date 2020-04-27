@@ -285,9 +285,9 @@ public class GoLocalGame extends LocalGame {
             }
         } else if(i == board.length-1 && j == 0){
             if(board[i][j] == 0){
-                if(board[i+1][j] == 1){
-                    if(checkIfLocked(i+1, j, realBoard)){
-                        realBoard[i+1][j] = 2;
+                if(board[i-1][j] == 1){
+                    if(checkIfLocked(i-1, j, realBoard)){
+                        realBoard[i-1][j] = 2;
                         state.addPlayer0Captures();
                     }
                 }
