@@ -11,7 +11,10 @@ import android.util.AttributeSet;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.FlashSurfaceView;
 
 /**
+ * The view of the game of Go
  *
+ * @author Reggie Jan Marc Nillo
+ * @version April 2020
  */
 
 public class GoView extends FlashSurfaceView {

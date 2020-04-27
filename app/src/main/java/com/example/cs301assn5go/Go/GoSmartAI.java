@@ -5,6 +5,13 @@ import android.util.Log;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.GameComputerPlayer;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.GameInfo;
 
+/**
+ * An AI to be used in Go that makes calculated and smart decisions
+ *
+ * @author Zhi "George" Chen
+ * @version April 2020
+ */
+
 public class GoSmartAI extends GameComputerPlayer {
     // Instance Variables
     private float pass; // Chance to pass

@@ -6,6 +6,13 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.Not
 
 import java.util.Random;
 
+/**
+ * An AI to be used in Go that makes somewhat random moves
+ *
+ * @author Zhi "George" Chen
+ * @version April 2020
+ */
+
 public class GoDumbAI extends GameComputerPlayer {
     // Instance Variables
     private float pass; // Chance to pass

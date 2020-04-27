@@ -5,6 +5,9 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage.G
 
 /**
  * A move-pass object that a Go player sends to the game to make a pass.
+ *
+ * @author Braeden Lane
+ * @version April 2020
  */
 public class GoPassAction extends GameAction {
     /**

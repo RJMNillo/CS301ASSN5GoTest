@@ -5,6 +5,9 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.actionMessage.G
 
 /**
  * A game-move object that a Go player sends to the game to make a move.
+ *
+ * @author Braeden Lane
+ * @version April 2020
  */
 public class GoMoveAction extends GameAction {
 

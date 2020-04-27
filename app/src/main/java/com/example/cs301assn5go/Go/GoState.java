@@ -4,7 +4,9 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.Gam
 
 /**
  * The state of the game of Go
+ *
  * @author Reggie Jan Marc Nillo
+ * @version April 2020
  */
 
 public class GoState extends GameState
