@@ -132,9 +132,9 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         else {
             state = (GoState)info;
             surfaceView.setState(state);
-            //CurrentTurn.setText("Turn: Player " + state.getTurn());
-            //P0captures.setText("Player 0 Captures: " + state.getPlayer0captures());
-            //P1captures.setText("Player 1 Captures: " + state.getPlayer1captures());
+            CurrentTurn.setText("Turn: Player " + state.getTurn());
+            P0captures.setText("Player 0 Captures: " + state.getPlayer0captures());
+            P1captures.setText("Player 1 Captures: " + state.getPlayer1captures());
             surfaceView.invalidate();
             Logger.log(TAG, "receiving");
         }

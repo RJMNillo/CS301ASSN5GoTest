@@ -40,7 +40,7 @@ public class GoState extends GameState
 
     /**
      * Copy Constructor: Creates a copy of the instance of the GameState.
-     * Requires the aforementioned state.
+     * @param CurrentState State of the game that is being copied
      */
     public GoState(GoState CurrentState)
     {
