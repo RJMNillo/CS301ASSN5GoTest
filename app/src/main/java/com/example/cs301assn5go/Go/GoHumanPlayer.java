@@ -77,7 +77,7 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
                 notPoint = null;
                 surfaceView.invalidate();
             } else {
-                surfaceView.flash(Color.RED, 50);
+                surfaceView.flash(Color.RED, 500);
             }
         }
     }
@@ -93,10 +93,20 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         if(p == null) {
             surfaceView.flash(Color.RED, 50);
         } else {
-            GoMoveAction action = new GoMoveAction(this, p.x, p.y);
+            //GoMoveAction action = new GoMoveAction(this, p.x, p.y);
             Logger.log("onTouch", "Human player sending GMA ...");
             //game.sendAction(action);
             notPoint = p;
+            for(int i = 0; i<state.getBoard().length; i++){
+                for(int j = 0; j<state.getBoard().length; j++){
+                    if(state.getPiece(i, j) == playerNum+4){
+                        state.setBoard(i, j, 2);
+                    }
+                }
+            }
+            if(state.getPiece(notPoint.x, notPoint.y) == 2){
+                state.setBoard(notPoint.x, notPoint.y, playerNum+4);
+            }
             surfaceView.invalidate();
         }
 

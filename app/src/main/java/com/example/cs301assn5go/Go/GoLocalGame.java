@@ -89,6 +89,21 @@ public class GoLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer p ) {
         //make a copy of the state, and send it to the player
+        int toPlayerID = getPlayerIdx(p);
+        int playerID;
+        if(toPlayerID == 1){
+            playerID = 0;
+        } else {
+            playerID = 1;
+        }
+        int[][] board = state.getBoard();
+        for(int i = 0; i<board.length; i++){
+            for(int j = 0; j<board.length; j++){
+                if(board[i][j] == playerID+4){
+                    state.setBoard(i,j,2);
+                }
+            }
+        }
         p.sendInfo(new GoState(state));
     }
 
@@ -113,7 +128,7 @@ public class GoLocalGame extends LocalGame {
             int playerId = getPlayerIdx(gm.getPlayer());
 
             // if that space is not legal
-            if(state.getPiece(row, col) != 2) { // TODO **********FOR NOW THIS JUST CHECKS IF THE SPOT IS EMPTY
+            if(state.getPiece(row, col) == 1 || state.getPiece(row,col) == 0) { // TODO **********FOR NOW THIS JUST CHECKS IF THE SPOT IS EMPTY
                 return false;
             }
             int up;
@@ -193,7 +208,15 @@ public class GoLocalGame extends LocalGame {
         return false;
     }
 
-    //ONLY IF LIBERTIES ARE SURROUNDING BY 4 OF THE OPPOSITE STONE
+    /**
+     * Checks if the stone that has just been placed captured anything around it using helper method
+     * checkIfLocked that can follow the trail of the entire group of stones being captured. If it
+     * is captured then removes it.
+     *
+     * @param row
+     * @param col
+     *          location of the stone that has just been placed.
+     */
     private void checkIfCaptured(int row, int col){
         int[][] realBoard = state.getBoard();
         int[][] board = realBoard;
@@ -530,6 +553,20 @@ public class GoLocalGame extends LocalGame {
         toBeDeleted = new ArrayList<Point>();
     }
 
+    /**
+     * Helper method for the checkIfCaptured method. Through recursion, it goes through the baord
+     * checks for liberties and then subtracts them from each stone. It uses the given board, so as
+     * to no confuse multiple points. It also adds all locked stones into an array list so that all
+     * the stones that are locked can be deleted
+     *
+     * @param row
+     * @param col
+     *          location of the stone to be checked
+     * @param givenBoard
+     *          Gives itself the updated board so it doesn't get confused with the real board
+     * @return
+     *          Returns true if the stone(s) is locked, returns false if it is not
+     */
     private boolean checkIfLocked(int row, int col, int[][] givenBoard){
         int[][] realBoard = givenBoard;
         int[][] board = new int[realBoard.length][realBoard.length];

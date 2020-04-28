@@ -8,12 +8,13 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 
+import com.example.cs301assn5go.R;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.FlashSurfaceView;
 
 /**
  * The view of the game of Go
  *
- * @author Reggie Jan Marc Nillo
+ * @author Vandan Bhargava
  * @version April 2020
  */
 
@@ -100,10 +101,6 @@ public class GoView extends FlashSurfaceView {
         */
     }
 
-    public Canvas getCanvas(){
-        return canvas;
-    }
-
     public void drawPieces(Canvas c){
         try {
             int[][] board = state.getBoard();
@@ -114,6 +111,14 @@ public class GoView extends FlashSurfaceView {
             Paint blackStone = new Paint();
             blackStone.setStyle(Paint.Style.FILL);
             blackStone.setColor(Color.BLACK);
+            Paint whiteStone2 = new Paint();
+            whiteStone2.setStyle(Paint.Style.FILL);
+            int opacWhite = getResources().getColor(R.color.opacBlack);
+            whiteStone2.setColor(opacWhite);
+            Paint blackStone2 = new Paint();
+            blackStone2.setStyle(Paint.Style.FILL);
+            int opacBlack = getResources().getColor(R.color.opacWhite);
+            blackStone2.setColor(opacBlack);
 
             float width = c.getWidth();
             float height = c.getHeight();
@@ -135,6 +140,12 @@ public class GoView extends FlashSurfaceView {
                     } else if (board[i][j] == 1) {
                         c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize),
                                 (centerY - (boardSize / 2)) + (j * squareSize), (squareSize / 20)*9, whiteStone);
+                    } else if(board[i][j] == 4){
+                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize),
+                                (centerY - (boardSize / 2)) + (j * squareSize), (squareSize / 20)*9, blackStone2);
+                    } else if(board[i][j] == 5){
+                        c.drawCircle((centerX - (boardSize / 2)) + (i * squareSize),
+                                (centerY - (boardSize / 2)) + (j * squareSize), (squareSize / 20)*9, whiteStone2);
                     }
                 }
             }
