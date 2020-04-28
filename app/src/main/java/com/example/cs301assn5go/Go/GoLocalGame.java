@@ -548,6 +548,11 @@ public class GoLocalGame extends LocalGame {
             }
         }
         for(int k = 0; k<toBeDeleted.size(); k++){
+            if(realBoard[toBeDeleted.get(k).x][toBeDeleted.get(k).y] == 1){
+                state.addPlayer0Captures();
+            } else {
+                state.addPlayer1Captures();
+            }
             realBoard[toBeDeleted.get(k).x][toBeDeleted.get(k).y] = 2;
         }
         toBeDeleted = new ArrayList<Point>();

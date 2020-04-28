@@ -62,6 +62,7 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
      */
     public GoHumanPlayer(String name) {
         super(name);
+        notPoint = null;
     }
 
     @Override
@@ -89,6 +90,7 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         float x = event.getX();
         float y = event.getY();
         Point p = surfaceView.mapPieces(x, y);
+        notPoint = p;
 
         if(p == null) {
             surfaceView.flash(Color.RED, 50);
