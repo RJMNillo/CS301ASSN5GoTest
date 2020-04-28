@@ -1,5 +1,7 @@
 package com.example.cs301assn5go.Go;
 
+import android.util.Log;
+
 import com.example.cs301assn5go.game.GameFramework.GameFramework.GameComputerPlayer;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.GameInfo;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.NotYourTurnInfo;
@@ -27,7 +29,7 @@ public class GoDumbAI extends GameComputerPlayer {
         if (info instanceof NotYourTurnInfo) return;
         // Accepts info
             int[][] board = ((GoState) info).getBoard(); // Local understanding of board
-            pass += 0.02;
+            pass += 0.01;
 
         // Chooses a random move
         if (pass >= 1) {
@@ -37,6 +39,7 @@ public class GoDumbAI extends GameComputerPlayer {
             choice = random(board);
             int x = choice[0];
             int y = choice[1];
+            Log.d("DumbAI","Move: " + x + "," + y);
             game.sendAction(new GoMoveAction(this, x, y));
         }
     }

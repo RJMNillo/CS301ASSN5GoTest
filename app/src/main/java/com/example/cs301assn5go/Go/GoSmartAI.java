@@ -2,6 +2,7 @@ package com.example.cs301assn5go.Go;
 
 import android.util.Log;
 
+import com.example.cs301assn5go.R;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.GameComputerPlayer;
 import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.GameInfo;
 
@@ -12,10 +13,12 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.infoMessage.Gam
  * @version April 2020
  */
 
+import java.util.Random;
+
 public class GoSmartAI extends GameComputerPlayer {
     // Instance Variables
     private float pass; // Chance to pass
-    private int[][] memory;
+    private int[][] memory = new int[13][13];
     private float rng;
     private int mypeice; // The color of the player
 
@@ -32,6 +35,7 @@ public class GoSmartAI extends GameComputerPlayer {
     protected void receiveInfo(GameInfo info) {
         // Creates Instances
         int[][] board;
+        mypeice = 0;
 
         // Accepts info
         if (info instanceof GoState) {
@@ -40,11 +44,23 @@ public class GoSmartAI extends GameComputerPlayer {
             return;
         }
 
+        pass += 0.01;
+
         // Creates Valuemap
         float[][] value = valuemap(board);
 
+        // Creates Choicemap
+        float[][] choice = new float[board.length][board.length];
+
+        // Runs algorithms
+        //apply_rng(choice);
+        //apply_bias(choice);
+        apply_capture(choice, value, board);
+        apply_protect(choice, value, board);
+        apply_occupied(choice, board, memory);
+
         // Makes move
-        choose(value);
+        choose(choice);
     }
 
     /** random: chooses a random position on the board
@@ -65,19 +81,15 @@ public class GoSmartAI extends GameComputerPlayer {
 
         for (int x1 = 0; x1 < input.length; x1++) {
             for (int y1 = 0; y1 < input.length; y1++) {
-                if (input[x1][y1] == 2) {
-                    for (int x2 = 0; x2 < input.length; x2++) {
-                        for (int y2 = 0; y2 < input.length; y2++) {
-                            float effect = (float)(3.5 - Math.abs(y2 - y1) - Math.abs(x2 - x1));
-                            if (input[x2][y2] == mypeice) {
-                                output[x1][y1] -= effect;
-                            } else {
-                                output[x1][y1] += effect;
-                            }
+                for (int x2 = 0; x2 < input.length; x2++) {
+                    for (int y2 = 0; y2 < input.length; y2++) {
+                        float effect = (float)((Math.abs(y2 - y1) + Math.abs(x2 - x1)));
+                        if (input[x2][y2] == mypeice) {
+                            output[x1][y1] += effect;
+                        } else if (input[x2][y2] != 0){
+                            output[x1][y1] -= effect;
                         }
                     }
-                } else {
-                    output[x1][y1] = -100000;
                 }
             }
         }
@@ -108,10 +120,83 @@ public class GoSmartAI extends GameComputerPlayer {
         Log.d("SmartAI","x:" + x_max);
         Log.d("SmartAI","y:" + y_max);
         if (max > pass) {
+            // Updates Move History
+            memory[x_max][y_max] = 1;
+
+            // Sends GameAction
             game.sendAction(new GoMoveAction(this, x_max, y_max));
         } else {
             Log.d("SmartAI","Pass");
             game.sendAction(new GoPassAction(this));
+        }
+    }
+
+    private void apply_rng(float[][] choice) {
+        Random rand = new Random();
+        for (int x = 0; x < choice.length; x ++) {
+            for (int y = 0; y < choice.length; y ++) {
+                choice[x][y] += (float)rand.nextInt(100) / 100;
+            }
+        }
+    }
+
+    private void apply_bias(float[][] choice) {
+        for (int x = 0; x < choice.length; x ++) {
+            for (int y = 0; y < choice.length; y ++) {
+                choice[x][y] += (choice.length - Math.abs((choice.length / 2) + 0.5 - x) - Math.abs((choice.length / 2) + 0.5 - y)) / 300;
+            }
+        }
+    }
+
+    private void apply_occupied(float[][] choice, int[][] board, int[][] memory) {
+        for (int x = 0; x < choice.length; x ++) {
+            for (int y = 0; y < choice.length; y ++) {
+                if (board[x][y] != 2 || memory[x][y] == 1) {
+                    choice[x][y] = -1000000;
+                }
+            }
+        }
+    }
+
+    private void apply_capture(float[][] choice, float[][] value, int[][] board) {
+        for (int x = 0; x < choice.length; x ++) {
+            for (int y = 0; y < choice.length; y ++) {
+                if (board[x][y] == 1) {
+                    if (x != 0) {
+                        choice[x-1][y] += 3;
+                    }
+                    if (x != choice.length - 1) {
+                        choice[x+1][y] += 3;
+                    }
+                    if (y != 0) {
+                        choice[x][y-1] += 3;
+                    }
+                    if (y != choice.length - 1) {
+                        choice[x][y+1] += 3;
+                    }
+                }
+            }
+        }
+    }
+
+    private void apply_protect(float[][] choice, float[][] value, int[][] board) {
+        for (int x = 0; x < choice.length; x ++) {
+            for (int y = 0; y < choice.length; y ++) {
+                if (board[x][y] == 0) {
+                    if (x != 0) {
+                        choice[x-1][y] += 1;
+                    }
+                    if (x != choice.length - 1) {
+                        choice[x+1][y] += 1;
+                    }
+                    if (y != 0) {
+                        choice[x][y-1] += 1;
+                    }
+                    if (y != choice.length - 1) {
+                        choice[x][y+1] += 1;
+                    }
+                }
+            }
         }
     }
 }
