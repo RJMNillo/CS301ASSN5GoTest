@@ -129,7 +129,7 @@ public class GoLocalGame extends LocalGame {
             int playerId = getPlayerIdx(gm.getPlayer());
 
             // if that space is not legal
-            if(state.getPiece(row, col) == 1 || state.getPiece(row,col) == 0) { // TODO **********FOR NOW THIS JUST CHECKS IF THE SPOT IS EMPTY
+            if(state.getPiece(row, col) == 1 || state.getPiece(row,col) == 0) {
                 return false;
             }
             int up;
@@ -157,7 +157,11 @@ public class GoLocalGame extends LocalGame {
                 right = 3;
             }
             if (up != 2 && down != 2 && left != 2 && right != 2) {
-                return false;
+                if(up == playerId || down == playerId || left == playerId || right == playerId) {
+
+                } else {
+                    return false;
+                }
             }
             // get the 0/1 id of the player whose move it is
             int whoseMove = state.getTurn();
