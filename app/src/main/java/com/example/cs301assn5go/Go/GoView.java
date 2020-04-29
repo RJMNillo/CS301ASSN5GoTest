@@ -15,23 +15,50 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.Logge
 /**
  * The view of the game of Go
  *
- * @author Vandan Bhargava
+ * @author Vandan Bhargava (coding), Reggie Jan Marc Nillo (documentation)
  * @version April 2020
  */
 
-public class GoView extends FlashSurfaceView {
+public class GoView extends FlashSurfaceView
+{
+    //Instance Variables
+    /** The state of the game of Go */
     protected GoState state;
+
+    /** Canvas of which board and pieces will be drawn on */
     protected Canvas canvas;
+
+    /** Width of Piece */
     private int widthForPieces;
+
+    /** Height of Piece */
     private int heightForPieces;
+
+    //methods
+
+    /**
+     * constructor for GoView, Calls upon super constructor
+     * @param context The context in which this view will be set up with
+     */
     public GoView(Context context) {
         super(context);
         init();
     }
+
+    /**
+     * constructor for GoView, Calls upon super constructor
+     * @param context The context in which this view will be set up with
+     * @param attrs This set of attributes
+     */
     public GoView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
+
+    /**
+     * Draws the board and its pieces, visual state of the game
+     * @param c The canvas in which the program will draw on
+     */
     public void onDraw(Canvas c){
         updateDimensions(c);
         Paint boardBackground = new Paint();
@@ -44,13 +71,24 @@ public class GoView extends FlashSurfaceView {
         //draw name of player
     }
 
+    /**
+     * Sets the Dimensions of the board
+     * @param c Canvas to draw
+     */
     public void updateDimensions(Canvas c){
         widthForPieces = c.getWidth();
         heightForPieces = c.getHeight();
     }
 
+    /**
+     * Gives a background color for the game view
+     */
     private void init() { setBackgroundColor(Color.LTGRAY);}
 
+    /**
+     * Draws the board with the intersections
+     * @param c Canvas to draw on
+     */
     public void drawBoard(Canvas c){
         try{
             int[][] board = state.getBoard();
@@ -110,6 +148,10 @@ public class GoView extends FlashSurfaceView {
         */
     }
 
+    /**
+     * Draws the pieces as stated from the board
+     * @param c Canvas to draw on
+     */
     public void drawPieces(Canvas c){
         try {
             int[][] board = state.getBoard();
@@ -162,6 +204,13 @@ public class GoView extends FlashSurfaceView {
 
         }
     }
+
+    /**
+     * Translate an onTouch point into a point of the closest intersection.
+     * @param xPos x coordinate from touch
+     * @param yPos y coordinate from touch
+     * @return A point on an intersection of the board
+     */
     public Point mapPieces(float xPos, float yPos){
         //gets the lay of the board and the location
         int[][] board = state.getBoard();
@@ -213,5 +262,9 @@ public class GoView extends FlashSurfaceView {
         return point;
     }
 
+    /**
+     * Set state to the current state
+     * @param state State of the game
+     */
     public void setState(GoState state) { this.state = state; }
 }
