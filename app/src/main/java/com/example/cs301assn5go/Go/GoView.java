@@ -125,27 +125,6 @@ public class GoView extends FlashSurfaceView
         } catch(NullPointerException e) {
 
         }
-
-        //Code for drawing a board just a little bit in from the top left corner of screen
-        //just in case the centered drawing above doesn't work
-        /*
-        float x = 25;
-        float y = 25;
-        float squareSize = 0;
-        if(width > height)
-            squareSize = (float) (height - 75) / board.length;
-        else
-            squareSize = (float) (width - 75) / board.length;
-
-        for(int i = 0; i<board.length-1; i++){
-            for(int j = 0; j<board.length-1; j++){
-                c.drawRect(x, y, x+squareSize, y+squareSize, square);
-                x+=squareSize;
-            }
-            x=25;
-            y+=squareSize;
-        }
-        */
     }
 
     /**
@@ -223,9 +202,8 @@ public class GoView extends FlashSurfaceView
             boardSize = height - 50;
         else
             boardSize = width - 50;
-        Logger.log("View", "boardsize: " + boardSize);
+
         float squareSize = boardSize / 12;
-        Logger.log("View", "squareSize: " + squareSize);
 
         //creates a virtual rectangle 2D array that servers as the hitbox of each intersection
         Rect[][] rectTouch = new Rect[board.length][board[0].length];
@@ -240,18 +218,13 @@ public class GoView extends FlashSurfaceView
             }
         }
 
-        Logger.log("View", "xPos: " + xPos + " yPos: " + yPos);
         Point point = new Point(board.length, board.length);
 
         //checks to see if the xPos and yPos are within that rectangle from the 2D array
         //if it is then returns the x and y values of the array in a point
-        //if not returns an empty point
+        //if not returns an empty point not on the board
         for(int i = 0; i<rectTouch.length; i++){
             for(int j = 0; j<rectTouch.length; j++){
-                Logger.log("View", "xPos : " + xPos + " Rect left and right: " + rectTouch[i][j].left + " " +
-                        rectTouch[i][j].right);
-                Logger.log("View", "yPos: " + yPos + " Rect top and bottom: " + rectTouch[i][j].top + " " +
-                        rectTouch[i][j].bottom);
                 if(xPos > rectTouch[i][j].left && xPos < rectTouch[i][j].right &&
                         yPos > rectTouch[i][j].top && yPos < rectTouch[i][j].bottom){
                     point.set(i, j);
