@@ -62,7 +62,7 @@ public class GoLocalGame extends LocalGame {
             if(scores[0] < scores[1]) {
                 gameWinner = 1;
             }
-            return playerNames[gameWinner] + " is the winner. " + (int)scores[0] + " to " + (int)scores[1] + ". ";
+            return playerNames[gameWinner] + " is the winner. " + (int)scores[0] + " to " + scores[1] + ". ";
         }
         return null;
     }
