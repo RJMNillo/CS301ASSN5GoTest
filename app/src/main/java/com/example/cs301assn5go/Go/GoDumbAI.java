@@ -31,7 +31,7 @@ public class GoDumbAI extends GameComputerPlayer {
         if (info instanceof IllegalMoveInfo) return;
         // Accepts info
             int[][] board = ((GoState) info).getBoard(); // Local understanding of board
-            pass += 0.01;
+            pass += 0.001;
 
         // Chooses a random move
         if (pass >= 1) {

@@ -53,7 +53,7 @@ public class GoSmartAI extends GameComputerPlayer {
         float[][] choice = new float[board.length][board.length];
 
         // Runs algorithms
-        //apply_rng(choice);
+        apply_rng(choice);
         //apply_bias(choice);
         apply_capture(choice, value, board);
         apply_protect(choice, value, board);
@@ -135,7 +135,7 @@ public class GoSmartAI extends GameComputerPlayer {
         Random rand = new Random();
         for (int x = 0; x < choice.length; x ++) {
             for (int y = 0; y < choice.length; y ++) {
-                choice[x][y] += (float)rand.nextInt(100) / 100;
+                choice[x][y] += (float)rand.nextInt(100) / 200;
             }
         }
     }
@@ -163,16 +163,16 @@ public class GoSmartAI extends GameComputerPlayer {
             for (int y = 0; y < choice.length; y ++) {
                 if (board[x][y] == 1) {
                     if (x != 0) {
-                        choice[x-1][y] += 3;
+                        choice[x-1][y] += 2;
                     }
                     if (x != choice.length - 1) {
-                        choice[x+1][y] += 3;
+                        choice[x+1][y] += 2;
                     }
                     if (y != 0) {
-                        choice[x][y-1] += 3;
+                        choice[x][y-1] += 2;
                     }
                     if (y != choice.length - 1) {
-                        choice[x][y+1] += 3;
+                        choice[x][y+1] += 2;
                     }
                 }
             }
