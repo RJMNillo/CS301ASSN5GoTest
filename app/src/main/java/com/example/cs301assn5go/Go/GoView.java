@@ -15,23 +15,50 @@ import com.example.cs301assn5go.game.GameFramework.GameFramework.utilities.Logge
 /**
  * The view of the game of Go
  *
- * @author Vandan Bhargava
+ * @author Vandan Bhargava (coding), Reggie Jan Marc Nillo (documentation)
  * @version April 2020
  */
 
-public class GoView extends FlashSurfaceView {
+public class GoView extends FlashSurfaceView
+{
+    //Instance Variables
+    /** The state of the game of Go */
     protected GoState state;
+
+    /** Canvas of which board and pieces will be drawn on */
     protected Canvas canvas;
+
+    /** Width of Piece */
     private int widthForPieces;
+
+    /** Height of Piece */
     private int heightForPieces;
+
+    //methods
+
+    /**
+     * constructor for GoView, Calls upon super constructor
+     * @param context The context in which this view will be set up with
+     */
     public GoView(Context context) {
         super(context);
         init();
     }
+
+    /**
+     * constructor for GoView, Calls upon super constructor
+     * @param context The context in which this view will be set up with
+     * @param attrs This set of attributes
+     */
     public GoView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
+
+    /**
+     * Draws the board and its pieces, visual state of the game
+     * @param c The canvas in which the program will draw on
+     */
     public void onDraw(Canvas c){
         updateDimensions(c);
         Paint boardBackground = new Paint();
@@ -44,13 +71,24 @@ public class GoView extends FlashSurfaceView {
         //draw name of player
     }
 
+    /**
+     * Sets the Dimensions of the board
+     * @param c Canvas to draw
+     */
     public void updateDimensions(Canvas c){
         widthForPieces = c.getWidth();
         heightForPieces = c.getHeight();
     }
 
+    /**
+     * Gives a background color for the game view
+     */
     private void init() { setBackgroundColor(Color.LTGRAY);}
 
+    /**
+     * Draws the board with the intersections
+     * @param c Canvas to draw on
+     */
     public void drawBoard(Canvas c){
         try{
             int[][] board = state.getBoard();
@@ -87,29 +125,12 @@ public class GoView extends FlashSurfaceView {
         } catch(NullPointerException e) {
 
         }
-
-        //Code for drawing a board just a little bit in from the top left corner of screen
-        //just in case the centered drawing above doesn't work
-        /*
-        float x = 25;
-        float y = 25;
-        float squareSize = 0;
-        if(width > height)
-            squareSize = (float) (height - 75) / board.length;
-        else
-            squareSize = (float) (width - 75) / board.length;
-
-        for(int i = 0; i<board.length-1; i++){
-            for(int j = 0; j<board.length-1; j++){
-                c.drawRect(x, y, x+squareSize, y+squareSize, square);
-                x+=squareSize;
-            }
-            x=25;
-            y+=squareSize;
-        }
-        */
     }
 
+    /**
+     * Draws the pieces as stated from the board
+     * @param c Canvas to draw on
+     */
     public void drawPieces(Canvas c){
         try {
             int[][] board = state.getBoard();
@@ -162,6 +183,13 @@ public class GoView extends FlashSurfaceView {
 
         }
     }
+
+    /**
+     * Translate an onTouch point into a point of the closest intersection.
+     * @param xPos x coordinate from touch
+     * @param yPos y coordinate from touch
+     * @return A point on an intersection of the board
+     */
     public Point mapPieces(float xPos, float yPos){
         //gets the lay of the board and the location
         int[][] board = state.getBoard();
@@ -174,9 +202,8 @@ public class GoView extends FlashSurfaceView {
             boardSize = height - 50;
         else
             boardSize = width - 50;
-        Logger.log("View", "boardsize: " + boardSize);
+
         float squareSize = boardSize / 12;
-        Logger.log("View", "squareSize: " + squareSize);
 
         //creates a virtual rectangle 2D array that servers as the hitbox of each intersection
         Rect[][] rectTouch = new Rect[board.length][board[0].length];
@@ -191,18 +218,13 @@ public class GoView extends FlashSurfaceView {
             }
         }
 
-        Logger.log("View", "xPos: " + xPos + " yPos: " + yPos);
         Point point = new Point(board.length, board.length);
 
         //checks to see if the xPos and yPos are within that rectangle from the 2D array
         //if it is then returns the x and y values of the array in a point
-        //if not returns an empty point
+        //if not returns an empty point not on the board
         for(int i = 0; i<rectTouch.length; i++){
             for(int j = 0; j<rectTouch.length; j++){
-                Logger.log("View", "xPos : " + xPos + " Rect left and right: " + rectTouch[i][j].left + " " +
-                        rectTouch[i][j].right);
-                Logger.log("View", "yPos: " + yPos + " Rect top and bottom: " + rectTouch[i][j].top + " " +
-                        rectTouch[i][j].bottom);
                 if(xPos > rectTouch[i][j].left && xPos < rectTouch[i][j].right &&
                         yPos > rectTouch[i][j].top && yPos < rectTouch[i][j].bottom){
                     point.set(i, j);
@@ -213,5 +235,9 @@ public class GoView extends FlashSurfaceView {
         return point;
     }
 
+    /**
+     * Set state to the current state
+     * @param state State of the game
+     */
     public void setState(GoState state) { this.state = state; }
 }

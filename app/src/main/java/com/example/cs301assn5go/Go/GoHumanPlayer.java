@@ -65,6 +65,11 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         notPoint = null;
     }
 
+    /**
+     * This method tracks all clicks made to the confirm button or pass button and takes action accordingly
+     *
+     * @param v The SurfaceView where the buttons are
+     */
     @Override
     public void onClick(View v) {
         if(v == myActivity.findViewById(R.id.button)) {
@@ -83,15 +88,20 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         }
     }
 
+    /**
+     * Tracks the touches made on the View, and coordiantes properly with the other classes.
+     *
+     * @param v The SurfaceView that gets clicked
+     * @param event The event of the touch of the screen
+     * @return returns true if it gets called correctly
+     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if(event.getAction() != MotionEvent.ACTION_UP) return true;
 
         float x = event.getX();
         float y = event.getY();
-        Logger.log("onTouch", "x: " + x + " | y: " + y);
         Point p = surfaceView.mapPieces(x, y);
-        Logger.log("on Touch", "Point x: " + p.x + " | Point y: " + p.y);
 
         if(p == null || p.x == state.getBoard().length || p.y == state.getBoard().length) {
             surfaceView.flash(Color.RED, 500);
@@ -116,11 +126,21 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         return true;
     }
 
+    /**
+     * Returns the View that is being accessed by the class
+     *
+     * @return returns the GUI layout
+     */
     @Override
     public View getTopView() {
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 
+    /**
+     * Receives info from the LocalGame of moves made by the opponent.
+     *
+     * @param info a GameInfo object consisting of what changed and if its the player's turn.
+     */
     @Override
     public void receiveInfo(GameInfo info) {
 
@@ -143,6 +163,11 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
         }
     }
 
+    /**
+     * Gets the main activity and sets the GUI layout
+     *
+     * @param activity receives info to use as the activity for the class.
+     */
     @Override
     public void setAsGui(GameMainActivity activity) {
         // remember our activity

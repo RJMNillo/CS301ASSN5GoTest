@@ -56,13 +56,13 @@ public class GoLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
         // This function is called if the player passes
-        if (passInEffect2) {
-            int [] scores = score();
+        if (passInEffect2) { // checks if it's the second pass in a row, otherwise it doesn't end game
+            double [] scores = score();
             int gameWinner = 0;
             if(scores[0] < scores[1]) {
                 gameWinner = 1;
             }
-            return playerNames[gameWinner] + " is the winner.";
+            return playerNames[gameWinner] + " is the winner. " + (int)scores[0] + " to " + scores[1] + ". ";
         }
         return null;
     }
@@ -129,9 +129,13 @@ public class GoLocalGame extends LocalGame {
             int playerId = getPlayerIdx(gm.getPlayer());
 
             // if that space is not legal
-            if(state.getPiece(row, col) == 1 || state.getPiece(row,col) == 0) { // TODO **********FOR NOW THIS JUST CHECKS IF THE SPOT IS EMPTY
+
+            // case of being occupied
+            if(state.getPiece(row, col) == 1 || state.getPiece(row,col) == 0) {
                 return false;
             }
+
+            // case of being surrounded by other player's stones
             int up;
             int down;
             int left;
@@ -157,8 +161,13 @@ public class GoLocalGame extends LocalGame {
                 right = 3;
             }
             if (up != 2 && down != 2 && left != 2 && right != 2) {
-                return false;
+                if(up == playerId || down == playerId || left == playerId || right == playerId) {
+
+                } else {
+                    return false;
+                }
             }
+
             // get the 0/1 id of the player whose move it is
             int whoseMove = state.getTurn();
 
@@ -857,18 +866,11 @@ public class GoLocalGame extends LocalGame {
     }
 
     /**
-     * clear_dead: removes dead pieces
-     */
-    private void clearDead(){
-        //TODO
-    }
-
-    /**
      * score: counts up score of player
      *
      * @return scores of the two players
      */
-    private int[] score(){
+    private double[] score(){
         // Initializes a board to manipulate for scoring
         int [][] board = state.getBoard();
         int [][] scoring = new int[13][13];
@@ -920,8 +922,8 @@ public class GoLocalGame extends LocalGame {
         }
 
         // tally up scores from board
-        int scoreZero = 0;
-        int scoreOne = 0;
+        double scoreZero = 0;
+        double scoreOne = 0;
         for(int row = 0; row < scoring.length; row++) {
             for(int col = 0; col < scoring[row].length; col++) {
                 if(scoring[row][col] == 3) {
@@ -934,10 +936,10 @@ public class GoLocalGame extends LocalGame {
 
         // subtracts the pieces captured (player 0 gets points lost for how many pieces they got caputered by player 1, vice versa)
         scoreZero = scoreZero - state.getPlayer1captures();
-        scoreOne = scoreOne - state.getPlayer0captures();
+        scoreOne = scoreOne - state.getPlayer0captures() + .5; // + .5 is for komi, or the tie breaker
 
         // initiate score array to return
-        int [] ret = new int[2];
+        double [] ret = new double[2];
         ret[0] = scoreZero;
         ret[1] = scoreOne;
 
