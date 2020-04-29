@@ -56,7 +56,7 @@ public class GoLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
         // This function is called if the player passes
-        if (passInEffect2) {
+        if (passInEffect2) { // checks if it's the second pass in a row, otherwise it doesn't end game
             double [] scores = score();
             int gameWinner = 0;
             if(scores[0] < scores[1]) {
@@ -129,9 +129,13 @@ public class GoLocalGame extends LocalGame {
             int playerId = getPlayerIdx(gm.getPlayer());
 
             // if that space is not legal
+
+            // case of being occupied
             if(state.getPiece(row, col) == 1 || state.getPiece(row,col) == 0) {
                 return false;
             }
+
+            // case of being surrounded by other player's stones
             int up;
             int down;
             int left;
@@ -163,6 +167,7 @@ public class GoLocalGame extends LocalGame {
                     return false;
                 }
             }
+
             // get the 0/1 id of the player whose move it is
             int whoseMove = state.getTurn();
 
@@ -858,13 +863,6 @@ public class GoLocalGame extends LocalGame {
             toBeDeleted.addAll(potentialToBeDeleted);
         }
         return (liberties == 0);
-    }
-
-    /**
-     * clear_dead: removes dead pieces
-     */
-    private void clearDead(){
-        //TODO
     }
 
     /**
