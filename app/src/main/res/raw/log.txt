@@ -1,0 +1,7 @@
+Referenced the following resources:
+
+https://en.wikipedia.org/wiki/Go_(game)
+Help from Dr. Vegdahl for the scoring algorithm
+https://www.reddit.com/r/baduk/comments/13dt8t/help_writing_a_scoring_algorithm_for_a_go_game/
+http://en.wikipedia.org/wiki/Flood_fill
+The Tic-Tac-Toe example project
