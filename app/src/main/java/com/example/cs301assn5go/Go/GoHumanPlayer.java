@@ -89,11 +89,12 @@ public class GoHumanPlayer extends GameHumanPlayer implements View.OnTouchListen
 
         float x = event.getX();
         float y = event.getY();
+        Logger.log("onTouch", "x: " + x + " | y: " + y);
         Point p = surfaceView.mapPieces(x, y);
-        notPoint = p;
+        Logger.log("on Touch", "Point x: " + p.x + " | Point y: " + p.y);
 
-        if(p == null) {
-            surfaceView.flash(Color.RED, 50);
+        if(p == null || p.x == state.getBoard().length || p.y == state.getBoard().length) {
+            surfaceView.flash(Color.RED, 500);
         } else {
             //GoMoveAction action = new GoMoveAction(this, p.x, p.y);
             Logger.log("onTouch", "Human player sending GMA ...");

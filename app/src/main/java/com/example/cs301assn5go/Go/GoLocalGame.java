@@ -57,8 +57,9 @@ public class GoLocalGame extends LocalGame {
     protected String checkIfGameOver() {
         // This function is called if the player passes
         if (passInEffect2) {
+            int [] scores = score();
             int gameWinner = 0;
-            if (score(0) < score(1)) {
+            if(scores[0] < scores[1]) {
                 gameWinner = 1;
             }
             return playerNames[gameWinner] + " is the winner.";
@@ -865,21 +866,81 @@ public class GoLocalGame extends LocalGame {
     /**
      * score: counts up score of player
      *
-     * @param player player id
-     *
-     * @return score of player
+     * @return scores of the two players
      */
-    private int score(int player){
-        int score = 0;
-        for(int x = 0; x < state.getBoard().length; x ++) {
-            for(int y = 0; y < state.getBoard().length; y ++) {
-                if (player == state.getBoard()[x][y]) {
-                    score ++;
+    private int[] score(){
+        // Initializes a board to manipulate for scoring
+        int [][] board = state.getBoard();
+        int [][] scoring = new int[13][13];
+        for(int x = 0; x < board.length; x++) {
+            for(int y = 0; y < board[x].length; y++) {
+                scoring [x][y] = board [x][y];
+            }
+        }
+
+        // an index to be used for scoring (based off of current value and neighbor values)
+        int [][] scoreIndex =  {{0,0,0,0,0,0},
+                                {1,1,1,1,1,1},
+                                {3,4,2,3,4,5},
+                                {3,5,3,3,5,5},
+                                {5,4,4,5,4,5},
+                                {5,5,5,5,5,5}};
+
+        boolean changed = true;
+        while(changed) {
+            changed = false;
+            for(int row = 0; row < scoring.length; row++) {
+                for(int col = 0; col < scoring[row].length; col++) {
+                    int old = scoring[row][col]; // checks for changed value later
+                    try {
+                        scoring[row][col] = scoreIndex[scoring[row][col]][scoring[row-1][col]]; // checks up
+                    } catch(ArrayIndexOutOfBoundsException e) {
+
+                    }
+                    try {
+                        scoring[row][col] = scoreIndex[scoring[row][col]][scoring[row][col+1]]; // checks right
+                    } catch(ArrayIndexOutOfBoundsException e) {
+
+                    }
+                    try {
+                        scoring[row][col] = scoreIndex[scoring[row][col]][scoring[row+1][col]]; // checks down
+                    } catch(ArrayIndexOutOfBoundsException e) {
+
+                    }
+                    try {
+                        scoring[row][col] = scoreIndex[scoring[row][col]][scoring[row][col-1]]; // checks left
+                    } catch(ArrayIndexOutOfBoundsException e) {
+
+                    }
+                    if(scoring[row][col] != old) {
+                        changed = true; // checks if a value has changed (avoids infinite checking loop)
+                    }
                 }
             }
         }
 
-        // Counts up surrounded spaces TODO
-        return score;
+        // tally up scores from board
+        int scoreZero = 0;
+        int scoreOne = 0;
+        for(int row = 0; row < scoring.length; row++) {
+            for(int col = 0; col < scoring[row].length; col++) {
+                if(scoring[row][col] == 3) {
+                    scoreZero++;
+                } else if(scoring[row][col] == 4) {
+                    scoreOne++;
+                }
+            }
+        }
+
+        // subtracts the pieces captured (player 0 gets points lost for how many pieces they got caputered by player 1, vice versa)
+        scoreZero = scoreZero - state.getPlayer1captures();
+        scoreOne = scoreOne - state.getPlayer0captures();
+
+        // initiate score array to return
+        int [] ret = new int[2];
+        ret[0] = scoreZero;
+        ret[1] = scoreOne;
+
+        return ret;
     }
 }
